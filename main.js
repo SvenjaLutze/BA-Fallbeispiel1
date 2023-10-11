@@ -9,14 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
             for (const image of filteredImages) {
                 image.style.display = "none";
             }
-            showAllButton.textContent = "Alles anzeigen";
+            showAllButton.textContent = "Mehr Bilder anzeigen";
             allImagesVisible = false;
         } else {
             // Wenn nicht alle Bilder sichtbar sind, ändere die Beschriftung des Buttons und zeige alle Bilder an
             for (const image of filteredImages) {
                 image.style.display = "block";
             }
-            showAllButton.textContent = "Weniger anzeigen";
+            showAllButton.textContent = "Weniger Bilder anzeigen";
             allImagesVisible = true;
         }
     });
