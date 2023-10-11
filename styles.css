@@ -1,0 +1,44 @@
+body {
+    background: radial-gradient(circle, rgba(63,94,251,0.8001401244091386) 0%, rgba(70,179,252,0.8) 100%);
+}
+
+.gallery {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+img {
+    border: 1px solid white;
+    color: white;
+    height: auto;
+    max-width: 100%;
+    padding: 35px;
+}
+
+button {
+    background-color: transparent;
+    border-radius: 25px;
+    border: 1px solid white;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.603);
+}
+
+.filtered {
+    display: none;
+}
