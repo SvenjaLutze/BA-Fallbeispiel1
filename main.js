@@ -14,6 +14,12 @@ const initialGalleryItems = [
     {
         src: '/img/4.jpg',
         alt: 'Eine Vielzahl an geöffneten Büchern'
+    },
+    {
+        src: '',
+        alt: '',
+        id: 'focus-element'
+        
     }
 ];
 
@@ -90,7 +96,15 @@ function setStatus() {
     status.textContent = "Es wurden neue Bilder geladen";
 }
 
-const changeStatus = document.getElementById('showAll');
-changeStatus.addEventListener('click', setStatus);
+const changeStatusOnClick = document.getElementById('showAll');
+changeStatusOnClick.addEventListener('click', setStatus);
+
+function setFocus() {
+    
+}
+
+// document.getElementById('showAll').addEventListener('click', () => {
+//     document.getElementById('focus-element').focus();
+// })
 
 addingImages(initialGalleryItems);

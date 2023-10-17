@@ -1,13 +1,13 @@
 :root {
+    --background: rgba(238, 202, 154, 0.8);
     --brown: rgba(99, 73, 40);
     --hover: rgba(99, 73, 40, 0.466);
-    --background: rgba(238, 202, 154, 0.8);
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 *:focus {
@@ -24,16 +24,16 @@ body {
 }
 
 h1 {
-    text-align: center;
+    color: var(--brown);
     padding-bottom: 25px;   
-    color: var(--brown)
+    text-align: center;
 }
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 10px;
+    justify-content: center;
 }
 
 .gallery > li {
@@ -42,11 +42,11 @@ h1 {
 }
 
 .gallery li img {
-    object-fit: cover;
-    max-width: 100%;
-    height: 280px;
-    vertical-align: middle;
     border-radius: 5px;
+    height: 280px;
+    max-width: 100%;
+    object-fit: cover;
+    vertical-align: middle;
 }
 
 ul {
@@ -68,6 +68,17 @@ button:hover {
     background-color: var(--hover);
 }
 
-.filtered {
-    display: none;
+.sr-only {
+    border: 0;
+    clip: rect(0,0,0,0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+#focus-element {
+
 }
