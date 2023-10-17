@@ -85,4 +85,12 @@ function addingImages(images) {
     }
 }
 
+function setStatus() {
+    const status = document.getElementById('status');
+    status.textContent = "Es wurden neue Bilder geladen";
+}
+
+const changeStatus = document.getElementById('showAll');
+changeStatus.addEventListener('click', setStatus);
+
 addingImages(initialGalleryItems);
