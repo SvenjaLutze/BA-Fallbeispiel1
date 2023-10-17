@@ -66,8 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
             allImagesVisible = false;
         } else {
             addingImages(additionalGalleryItems);
-            showAllButton.textContent = "Weniger Bilder anzeigen";
-            allImagesVisible = true;
         }
     });
 });
