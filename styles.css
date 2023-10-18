@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Chopin-Script';
+    src: url('/fonts/ChopinScript.ttf');
+}
+
 :root {
     --background: rgba(238, 202, 154, 0.8);
     --brown: rgba(99, 73, 40);
@@ -27,6 +32,8 @@ h1 {
     color: var(--brown);
     padding-bottom: 25px;   
     text-align: center;
+    font-family: 'Chopin-Script', sans-serif;
+    font-size: 5vw;
 }
 
 .gallery {
@@ -47,6 +54,10 @@ h1 {
     max-width: 100%;
     object-fit: cover;
     vertical-align: middle;
+}
+
+.gallery a {
+    display: block;
 }
 
 ul {
@@ -80,5 +91,5 @@ button:hover {
 }
 
 #focus-element {
-
+    position: absolute;
 }

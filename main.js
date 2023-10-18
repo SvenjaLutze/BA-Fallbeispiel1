@@ -1,110 +1,81 @@
-const initialGalleryItems = [
-    {
-        src: '/img/1.jpg',
-        alt: 'Eine Tasse Tee auf einem Stapel Bücher'
+import initialGalleryItems from './data/initialGallery.js';
+import additionalGalleryItems from './data/additionalGallery.js';
+
+const Gallery = {
+
+    /**
+     * Collects necessary elements.
+     * @function _cacheElements
+     * @private
+    */
+    _cacheElements: function () {
+        this.statusElement = document.getElementById('status');
+        this.showAllButton = document.getElementById('show-all');
+        this.gallery = document.querySelector('.gallery');
+        this.focusHolderElement = document.createElement('li');
     },
-    {
-        src: '/img/2.jpg',
-        alt: 'Ein Kompass auf einer Landkarte'
+
+    /**
+     * Binds all events.
+     * @function _bindEvents
+     * @private
+    */
+    _bindEvents: function () {
+        Gallery.showAllButton.addEventListener("click", function () {
+            Gallery._loadMoreElements();
+        });
     },
-    {
-        src: '/img/3.jpg',
-        alt: 'Eine Zeitung neben einer Tasse Kaffee, einem Handy und einem Stift'
+
+    _loadMoreElements: function() {
+        Gallery.gallery.insertAdjacentElement('beforeend', Gallery.focusHolderElement);
+        Gallery.focusHolderElement.focus();
+
+        Gallery._setStatus('Es werden Bilder geladen');
+
+        setTimeout(() => {
+            Gallery._addImages(additionalGalleryItems);
+            Gallery._setStatus('Es wurden Bilder geladen');
+        }, 1000)
     },
-    {
-        src: '/img/4.jpg',
-        alt: 'Eine Vielzahl an geöffneten Büchern'
-    },
-    {
-        src: '',
-        alt: '',
-        id: 'focus-element'
+
+    _createFocusElement: function() {
+        Gallery.focusHolderElement.setAttribute('tabindex', '-1')
+        Gallery.focusHolderElement.setAttribute('role', 'presentation');
+        Gallery.focusHolderElement.setAttribute('aria-hidden', 'true');
+        Gallery.focusHolderElement.id = 'focus-element';
         
-    }
-];
+        Gallery.focusHolderElement.addEventListener('blur', function() {
+            Gallery.focusHolderElement.remove();
+        });
+    },
 
-const additionalGalleryItems = [
-    {
-        src: '/img/5.jpg',
-        alt: 'Eine goldene Taschenuhr auf einer Landkarte'
-    },
-    {
-        src: '/img/6.jpg',
-        alt: 'Ein paar Schuhe, eine Krawatte, ein Notizbuch mit Stift, eine Rolle Geld, ein Feuerzeug und eine Kamera'
-    },
-    {
-        src: '/img/7.jpg',
-        alt: 'Eine Kamera auf einer Landkarte und drei Fotos'
-    },
-    {
-        src: '/img/8.jpg',
-        alt: 'Ein Notizbuch auf einer Landkarte neben einer Brille und drei Fotos'
-    },
-    {
-        src: '/img/9.jpg',
-        alt: 'Ein leuchtender Globus auf einem Schreibtisch'
-    },
-    {
-        src: '/img/10.jpg',
-        alt: 'Eine Brille auf einem aufgeschlagenen Buch'
-    },
-    {
-        src: '/img/11.jpg',
-        alt: 'Zwei alte Münzen, ein kleiner Schlüssel und ein Kompass auf einer Landkarte'
-    },
-    {
-        src: '/img/12.jpg',
-        alt: 'Ein Stapel alter Bücher'
-    }
-];
+    _addImages: function(images) {
+        for (var i = 0; i < images.length; i++) {
+            const currentGalleryItem = images[i];
+            const newGalleryEntry = `
+                <li>
+                    <a href="#">
+                        <img src="${currentGalleryItem.src}" alt="${currentGalleryItem.alt}">
+                    </a>
+                </li>
+            `;
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const showAllButton = document.getElementById("showAll");
-    let allImagesVisible = false;
-    const gallery = document.querySelector(".gallery");
-
-    showAllButton.addEventListener("click", function () {
-        if (allImagesVisible) {
-            gallery.innerHTML = '';
-            addingImages(initialGalleryItems);
-            showAllButton.textContent = "Mehr Bilder anzeigen";
-            allImagesVisible = false;
-        } else {
-            addingImages(additionalGalleryItems);
+            document.querySelector(".gallery").insertAdjacentHTML('beforeend', newGalleryEntry);
         }
-    });
-});
+    },
 
-function addingImages(images) {
-    for (var i = 0; i < images.length; i++) {
-        const currentGalleryItem = images[i];
-        const newGalleryEntry = `
-            <li>
-                <a href="#">
-                    <img src="${currentGalleryItem.src}" alt="${currentGalleryItem.alt}">
-                </a>
-            </li>
-        `;
+    _setStatus: function(statusMessage) {
+        Gallery.statusElement.textContent = statusMessage;
+    },
 
-        document.querySelector(".gallery").insertAdjacentHTML('beforeend', newGalleryEntry);
+    init: function() {
+        if (document.querySelector('.gallery')) {
+            Gallery._cacheElements();
+            Gallery._createFocusElement();
+            Gallery._addImages(initialGalleryItems); 
+            Gallery._bindEvents();
+        }
     }
 }
 
-function setStatus() {
-    const status = document.getElementById('status');
-    status.textContent = "Es wurden neue Bilder geladen";
-}
-
-const changeStatusOnClick = document.getElementById('showAll');
-changeStatusOnClick.addEventListener('click', setStatus);
-
-function setFocus() {
-    
-}
-
-// document.getElementById('showAll').addEventListener('click', () => {
-//     document.getElementById('focus-element').focus();
-// })
-
-addingImages(initialGalleryItems);
+Gallery.init();
