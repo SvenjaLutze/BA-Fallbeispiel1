@@ -13,6 +13,7 @@ const Gallery = {
         this.showAllButton = document.getElementById('show-all');
         this.gallery = document.querySelector('.gallery');
         this.focusHolderElement = document.createElement('li');
+        this.searchBox = document.querySelector('#search-box');
     },
 
     /**
@@ -64,6 +65,23 @@ const Gallery = {
         }
     },
 
+    _filterImages: function() {
+        Gallery.searchBox.oninput = () => {
+            Gallery.gallery.forEach(hide => hide.style.display = 'none');
+            Gallery.gallery.forEach(filter =>{
+                let title = filter.getAttribute('data-title');
+                var value = title.split(","); 
+                value = searchBox.value;
+                if (value == title) {
+                    filter.style.display = 'block';
+                }
+                if(searchBox.value ='') {
+                    filter.style.display = 'block';
+                }
+            });
+        }
+    },
+
     _setStatus: function(statusMessage) {
         Gallery.statusElement.textContent = statusMessage;
     },
@@ -73,6 +91,7 @@ const Gallery = {
             Gallery._cacheElements();
             Gallery._createFocusElement();
             Gallery._addImages(initialGalleryItems); 
+            Gallery._filterImages();
             Gallery._bindEvents();
         }
     }
