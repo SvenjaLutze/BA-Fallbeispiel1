@@ -9,7 +9,7 @@ class Gallery extends Component {
         super();
         this.state = {
             galleryItems: initialGalleryItems,
-            //status: 'Bilder geladen',
+            status: '',
         };
     }
 

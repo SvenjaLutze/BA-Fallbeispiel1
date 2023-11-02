@@ -12,6 +12,7 @@ const Gallery = {
         this.statusElement = document.getElementById('status');
         this.showAllButton = document.getElementById('show-all');
         this.gallery = document.querySelector('.gallery');
+        this.galleryItems = null;
         this.focusHolderElement = document.createElement('li');
         this.searchBox = document.querySelector('#search-box');
     },
@@ -63,20 +64,19 @@ const Gallery = {
 
             document.querySelector(".gallery").insertAdjacentHTML('beforeend', newGalleryEntry);
         }
+
+        Gallery.galleryItems = Gallery.gallery.querySelectorAll('li:not(#focus-element)');
     },
 
     _filterImages: function() {
         Gallery.searchBox.oninput = () => {
-            Gallery.gallery.forEach(hide => hide.style.display = 'none');
-            Gallery.gallery.forEach(filter =>{
-                let title = filter.getAttribute('data-title');
-                var value = title.split(","); 
-                value = searchBox.value;
-                if (value == title) {
-                    filter.style.display = 'block';
-                }
-                if(searchBox.value ='') {
-                    filter.style.display = 'block';
+            let searchString = Gallery.searchBox.value;
+            
+            Gallery.galleryItems.forEach(listItem =>{
+                let tagList = listItem.querySelector('img').getAttribute('data-title').split(","); 
+                
+                if (searchString == tagList) {
+                    listItem.style.display = 'block';
                 }
             });
         }
