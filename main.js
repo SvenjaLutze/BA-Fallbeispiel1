@@ -26,6 +26,10 @@ const Gallery = {
         Gallery.showAllButton.addEventListener("click", function () {
             Gallery._loadMoreElements();
         });
+
+        Gallery.searchBox.addEventListener("input", function () {
+            Gallery._filterGallery();
+        });
     },
 
     _loadMoreElements: function() {
@@ -57,7 +61,7 @@ const Gallery = {
             const newGalleryEntry = `
                 <li>
                     <a href="#">
-                        <img src="${currentGalleryItem.src}" alt="${currentGalleryItem.alt}">
+                        <img src="${currentGalleryItem.src}" alt="${currentGalleryItem.alt}" data-tags="${currentGalleryItem.tags}">
                     </a>
                 </li>
             `;
@@ -68,18 +72,20 @@ const Gallery = {
         Gallery.galleryItems = Gallery.gallery.querySelectorAll('li:not(#focus-element)');
     },
 
-    _filterImages: function() {
-        Gallery.searchBox.oninput = () => {
-            let searchString = Gallery.searchBox.value;
+    _filterGallery: function() {
+        let searchString = Gallery.searchBox.value;
+        
+        Gallery.galleryItems.forEach(listItem =>{
+            let tagList = listItem.querySelector('img').getAttribute('data-tags').split(","); 
             
-            Gallery.galleryItems.forEach(listItem =>{
-                let tagList = listItem.querySelector('img').getAttribute('data-title').split(","); 
-                
-                if (searchString == tagList) {
-                    listItem.style.display = 'block';
-                }
-            });
-        }
+            let matchFound = tagList.some(tag => tag.includes(searchString));
+
+            if (matchFound) {
+                listItem.style.display = 'block';
+            } else {
+                listItem.style.display = 'none';
+            }
+        });
     },
 
     _setStatus: function(statusMessage) {
@@ -91,7 +97,6 @@ const Gallery = {
             Gallery._cacheElements();
             Gallery._createFocusElement();
             Gallery._addImages(initialGalleryItems); 
-            Gallery._filterImages();
             Gallery._bindEvents();
         }
     }

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import GalleryItem from './GalleryItem';
 
-import initialGalleryItems from '../../../data/initialGallery';
-import additionalGalleryItems from '../../../data/additionalGallery';
+import initialGalleryItems from '../data/initialGallery';
+import additionalGalleryItems from '../data/additionalGallery';
 
 class Gallery extends Component {
     constructor() {
@@ -10,30 +10,40 @@ class Gallery extends Component {
         this.state = {
             galleryItems: initialGalleryItems,
             status: '',
+            searchString: '',
         };
+
+        this.focusHolderRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this._createFocusElement();
     }
 
     _loadMoreElements() {
         Gallery.insertAdjacentElement('beforeend', Gallery.focusHolderElement);
         Gallery.focusHolderElement.focus();
 
-        Gallery.state = 'Es werden Bilder geladen';
-
-        setTimeout.state = ({
-            galleryItems: additionalGalleryItems,
-            status: 'Es wurden Bilder geladen'
-        }, 1000)
-
+        Gallery.setState({status: 'Es werden Bilder geladen'});
+        
+        setTimeout(() => {
+            Gallery.setState({
+              galleryItems: [...initialGalleryItems, ...additionalGalleryItems],
+              status: 'Es wurden Bilder geladen'
+            });
+        }, 1000);
+           
     }
 
     _createFocusElement() {
-        Gallery.focusHolderElement.setAttribute('tabindex', '-1');
-        Gallery.focusHolderElement.setAttribute('role', 'presentation');
-        Gallery.focusHolderElement.setAttribute('aria-hidden', 'true');
-        Gallery.focusHolderElement.id = 'focus-element';
-        
-        Gallery.focusHolderElement.addEventListener('blur', function() {
-            Gallery.focusHolderElement.remove();
+        const focusHolderElement = Gallery.focusHolderRef.current;
+        focusHolderElement.setAttribute('tabIndex', -1);
+        focusHolderElement.setAttribute('role', 'presentation');
+        focusHolderElement.setAttribute('aria-hidden', 'true');
+        focusHolderElement.id = 'focus-element';
+
+        focusHolderElement.addEventListener('blur', () => {
+            focusHolderElement.remove();
         });
     }
 
@@ -49,6 +59,7 @@ class Gallery extends Component {
                         <GalleryItem key={index} src={item.src} alt={item.alt} />
                     ))}
                 </ul>
+                <div ref={this.focusHolderRef}></div>
             </div>
         );
     }

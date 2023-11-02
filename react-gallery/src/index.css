@@ -1,13 +1,109 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* @font-face {
+  font-family: 'Chopin-Script';
+  src: url('/fonts/ChopinScript.ttf');
+} */
+
+:root {
+  --background: rgba(238, 202, 154, 0.8);
+  --brown: rgba(99, 73, 40);
+  --hover: rgba(99, 73, 40, 0.466);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: 2px dashed red;
+}
+
+body {
+  background: var(--background);
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+
+.container {
+  padding: 35px 5%;
+}
+
+h1 {
+  color: var(--brown);
+  padding-bottom: 25px;   
+  text-align: center;
+  font-family: 'Chopin-Script', sans-serif;
+  font-size: 5vw;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.gallery > li {
+  flex-basis: 350px;
+  position: relative;
+}
+
+.gallery li img {
+  border-radius: 5px;
+  height: 280px;
+  max-width: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.gallery a {
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  background-color: transparent;
+  border-radius: 25px;
+  border: 1px solid var(--brown);
+  color: var(--brown);
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+button:hover {
+  background-color: var(--hover);
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0,0,0,0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#focus-element {
+  position: absolute;
+}
+
+.gallery-filter {
+  display: flex;
+  padding-bottom: 25px;
+}
+
+#search-box {
+  margin: auto;
+  width: 25%;
+  padding: 10px;
+  border-radius: 25px;
+  border: 1px solid var(--brown);
+  color: var(--brown);
 }
