@@ -44,7 +44,7 @@ h1 {
 }
 
 .gallery > li {
-  flex-basis: 350px;
+  flex-basis: 373px;
   position: relative;
 }
 
@@ -71,7 +71,7 @@ button {
   color: var(--brown);
   cursor: pointer;
   display: block;
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 10px 20px;
 }
 
