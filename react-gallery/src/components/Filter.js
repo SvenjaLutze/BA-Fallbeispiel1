@@ -1,36 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Filter extends Component {
-    constructor(props) {
-        super(props);
-            this.state = {
-            searchString: '',
-        };
-    }
+export default function Filter({ onFilterChange }) {
+  const [searchString, setSearchString] = useState('');
 
-    _handleSearchChange = (event) => {
-        this.setState({ searchString: event.target.value }, () => {
-          this.props.onFilterChange(this.state.searchString);
-        });
-      }
+  const handleSearchChange = (event) => {
+    const newSearchString = event.target.value;
+    setSearchString(newSearchString);
+    onFilterChange(newSearchString);
+  };
 
-    render() {
-        const { searchString } = this.state;
-    
-        return (
-          <div>
-            <div className="gallery-filter">
-                <input
-                    type="text"
-                    placeholder="Bildersuche"
-                    id="search-box"
-                    value={searchString}
-                    onChange={this._handleSearchChange}
-                />
-            </div>
-          </div>
-        );
-    }
+  return (
+    <div>
+      <div className="gallery-filter">
+        <input
+          type="text"
+          placeholder="Bildersuche"
+          id="search-box"
+          value={searchString}
+          onChange={handleSearchChange}
+        />
+      </div>
+    </div>
+  );
 }
-
-export default Filter;

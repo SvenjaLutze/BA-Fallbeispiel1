@@ -92,6 +92,7 @@ button:hover {
 
 #focus-element {
   position: absolute;
+  right: 0;
 }
 
 .gallery-filter {

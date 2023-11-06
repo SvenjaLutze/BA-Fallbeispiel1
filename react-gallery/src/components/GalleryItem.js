@@ -1,13 +1,11 @@
 import React from 'react';
 
-function GalleryItem({ src, alt}) {
+export default function GalleryItem({innerRef, src, alt}) {
     return (
         <li>
-            <a href="#">
+            <a href="#" ref={innerRef}>
                 <img src={src} alt={alt} />
             </a>
         </li>
     )
 }
-
-export default GalleryItem;
