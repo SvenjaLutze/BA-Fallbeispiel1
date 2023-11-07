@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import GalleryItem from './GalleryItem.js';
 import Filter from './Filter.js';
 
@@ -6,13 +6,14 @@ import initialGalleryItems from '../data/initialGallery.js';
 import additionalGalleryItems from '../data/additionalGallery.js';
 
 const keyCodes = {
-    TAB: 9
+  TAB: 9
 }
 
 export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState(initialGalleryItems);
   const [status, setStatus] = useState("");
   const [galleryItemFocusPosition, setGalleryItemFocusPosition] = useState(0);
+  const allGalleryItems = [...initialGalleryItems, ...additionalGalleryItems];
 
   const focusHolderRef = useRef();
   
@@ -48,32 +49,45 @@ export default function Gallery() {
 
     }, 1000);
   };
-
-  const handleFilterChange = (searchString) => {
-    const filteredGallery = initialGalleryItems.filter((item) => {
-      const tagList = item.tags.split(',');
-      return tagList.some((tag) => tag.includes(searchString));
-    });
-    // Do something with the filteredGallery
-  };
-
+  
   const refsById = useMemo(() => {
     const refs = {}
     galleryItems.forEach((galleryItem, index) => {
-        refs[`galleryItem-${index + 1}`] = React.createRef(null)
+        refs[`galleryItem-${index + 1}`] = React.createRef()
     })
 
-    return refs
-}, [galleryItems])
+    return refs;
+}, [galleryItems]);
+
+  const handleSearch = (searchValue) => {
+    const filteredGalleryItems = allGalleryItems.filter((item) => {
+      const tags = item.tags.split(",").map((tag) => tag.trim());
+      return tags.some((tag) => tag.toLowerCase().indexOf(searchValue) !== -1);
+    });
+    // .some returns true if, in the array, it finds an element for which the provided 
+    // function returns true; otherwise it returns false. It doesn't modify the array.
+
+    // indexOf eturns the first index at which a given element can be found in the 
+    // array, or -1 if it is not present. 
+
+    setGalleryItems(filteredGalleryItems);
+  }
 
   return (
     <div>
       <div className="container"></div>
-      <div id='status' aria-atomic="true" className='sr-only'>{status}</div>
+
+      <div 
+        id='status' 
+        aria-atomic="true" 
+        className='sr-only'>
+          {status}
+      </div>
+
       <h1>Vintage Bildergalerie</h1>
       
      {/* Search-Bar */}
-      <Filter onFilterChange={handleFilterChange} />
+      <Filter onSearch={handleSearch} />
 
      {/* GalleryItems */}  
       <ul className='gallery'>

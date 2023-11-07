@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-export default function Filter({ onFilterChange }) {
-  const [searchString, setSearchString] = useState('');
+export default function Filter({ onSearch }) {
+  const [searchInput, setSearchInput] = useState("");
 
-  const handleSearchChange = (event) => {
-    const newSearchString = event.target.value;
-    setSearchString(newSearchString);
-    onFilterChange(newSearchString);
+  const handleChange = (e) => {
+    setSearchInput(e.target.value.toLowerCase());
+    onSearch(e.target.value.toLowerCase());
   };
 
   return (
@@ -16,8 +15,8 @@ export default function Filter({ onFilterChange }) {
           type="text"
           placeholder="Bildersuche"
           id="search-box"
-          value={searchString}
-          onChange={handleSearchChange}
+          value={searchInput}
+          onChange={handleChange}
         />
       </div>
     </div>
