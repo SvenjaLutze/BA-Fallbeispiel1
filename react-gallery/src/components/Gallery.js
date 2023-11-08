@@ -80,6 +80,7 @@ export default function Gallery() {
       <div 
         id='status' 
         aria-atomic="true" 
+        aria-live='polite'
         className='sr-only'>
           {status}
       </div>

@@ -30,6 +30,10 @@ const Gallery = {
         Gallery.searchBox.addEventListener("input", function () {
             Gallery._filterGallery();
         });
+
+        Gallery.searchBox.addEventListener("focus", function () {
+            Gallery._setStatus("Das Suchfeld wurde ausgewählt. Geben Sie einen Suchbegriff ein.");
+        });
     },
 
     _loadMoreElements: function() {
