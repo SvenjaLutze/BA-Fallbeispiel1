@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
+import { Wrapper, Button, Menu, MenuItem } from 'react-aria-menubutton/src';
+
 import GalleryItem from './GalleryItem.js';
 import Filter from './Filter.js';
 
@@ -12,6 +14,7 @@ const keyCodes = {
 export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState(initialGalleryItems);
   const [status, setStatus] = useState("");
+  const [galleryIsFiltered, setGalleryIsFiltered] = useState(false);
   const [galleryItemFocusPosition, setGalleryItemFocusPosition] = useState(0);
   const allGalleryItems = [...initialGalleryItems, ...additionalGalleryItems];
 
@@ -64,13 +67,26 @@ export default function Gallery() {
       const tags = item.tags.split(",").map((tag) => tag.trim());
       return tags.some((tag) => tag.toLowerCase().indexOf(searchValue) !== -1);
     });
-    // .some returns true if, in the array, it finds an element for which the provided 
+    // ".some" returns true if, in the array, it finds an element for which the provided 
     // function returns true; otherwise it returns false. It doesn't modify the array.
 
-    // indexOf eturns the first index at which a given element can be found in the 
+    // "indexOf" returns the first index at which a given element can be found in the 
     // array, or -1 if it is not present. 
 
     setGalleryItems(filteredGalleryItems);
+
+    return filteredGalleryItems.length;
+  }
+
+  const handleSelection = (menuItemText, event) => {
+    setGalleryIsFiltered(menuItemText !== '-- alle --');
+
+    const searchValue = galleryIsFiltered ? '' : menuItemText;
+    const matchCount = handleSearch(searchValue.toLowerCase());
+
+    setTimeout(function() {
+      setStatus(`Anzahl der Treffer zu ${menuItemText}: ${matchCount}`);
+    }, 100);
   }
 
   return (
@@ -87,10 +103,41 @@ export default function Gallery() {
 
       <h1>Vintage Bildergalerie</h1>
       
-     {/* Search-Bar */}
-      <Filter onSearch={handleSearch} />
+      {/* Search-Bar */}
+      <Wrapper
+        className='MyMenuButton'
+        onSelection={handleSelection}
+      >
+        <Button className='MyMenuButton-button'>
+          Filtern nach
+        </Button>
+        <Menu className='MyMenuButton-menu'>
+          <ul>            
+            <li>
+              <MenuItem className='MyMenuButton-menuItem'>
+                -- alle --
+              </MenuItem>
+            </li>
+            <li>
+              <MenuItem className='MyMenuButton-menuItem'>
+                Bücher
+              </MenuItem>
+            </li>
+            <li>
+              <MenuItem className='MyMenuButton-menuItem'>
+                Globus
+              </MenuItem>
+            </li>
+            <li>
+              <MenuItem className='MyMenuButton-menuItem'>
+                Schildkröte
+              </MenuItem>
+            </li>
+          </ul>
+        </Menu>
+      </Wrapper>
 
-     {/* GalleryItems */}  
+     {/* GalleryItems */}
       <ul className='gallery'>
         {galleryItems.map((item, index) => (
           <GalleryItem 
@@ -98,7 +145,7 @@ export default function Gallery() {
             key={index} 
             src={item.src} 
             alt={item.alt} 
-            />
+          />
         ))}
       </ul>
 
@@ -112,10 +159,13 @@ export default function Gallery() {
         id="focus-element">
       </a>
 
-      <button id='show-all' onClick={loadMoreElements}>
-        Mehr Bilder anzeigen
-      </button>
-
+      {
+        galleryIsFiltered === false && (
+          <button id='show-all' onClick={loadMoreElements}>
+            Mehr Bilder anzeigen
+          </button>
+        )
+      }
      
     </div>
   );

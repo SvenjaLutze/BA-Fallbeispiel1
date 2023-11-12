@@ -9,14 +9,6 @@ export default function Filter({ onSearch }) {
     onSearch(e.target.value.toLowerCase());
   };
 
-  const handleFocus = () => {
-    setStatus("Das Suchfeld wurde ausgewählt. Geben Sie einen Suchbegriff ein.");
-  }
-
-  const handleBlur = () => {
-    setStatus("");
-  }
-
   return (
     <div>
       <div className="gallery-filter">
@@ -26,8 +18,6 @@ export default function Filter({ onSearch }) {
           id="search-box"
           value={searchInput}
           onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
         />
       </div>
       <div id="search-status" aria-live="polite" className="sr-only">
