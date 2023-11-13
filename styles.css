@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Chopin-Script';
-    src: url('/fonts/ChopinScript.ttf');
+    font-family: 'Sanford';
+    src: url('/fonts/Sanford.ttf');
 }
 
 :root {
@@ -32,8 +32,8 @@ h1 {
     color: var(--brown);
     padding-bottom: 25px;   
     text-align: center;
-    font-family: 'Chopin-Script', sans-serif;
-    font-size: 5vw;
+    font-family: 'Sanford', sans-serif;
+    font-size: 4vw;
 }
 
 .gallery {
