@@ -2,12 +2,12 @@ export default [
     {
         "src": "/img/1.jpg",
         "alt": "Eine Tasse Tee auf einem Stapel Bücher",
-        "tags": "Bücher, Tasse"
+        "tags": "Bücher"
     },
     {
         "src": "/img/2.jpg",
         "alt": "Ein Kompass auf einer Landkarte",
-        "tags": "Landkarte, Kompass"
+        "tags": "Landkarten"
 
     },
     {

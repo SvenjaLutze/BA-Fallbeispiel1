@@ -62,7 +62,7 @@ export default function Gallery() {
     return refs;
 }, [galleryItems]);
 
-  const handleSearch = (searchValue) => {
+  const filterGallery = (searchValue) => {
     const filteredGalleryItems = allGalleryItems.filter((item) => {
       const tags = item.tags.split(",").map((tag) => tag.trim());
       return tags.some((tag) => tag.toLowerCase().indexOf(searchValue) !== -1);
@@ -79,10 +79,10 @@ export default function Gallery() {
   }
 
   const handleSelection = (menuItemText, event) => {
-    setGalleryIsFiltered(menuItemText !== '-- alle --');
+    setGalleryIsFiltered(menuItemText !== 'Alle anzeigen');
 
     const searchValue = galleryIsFiltered ? '' : menuItemText;
-    const matchCount = handleSearch(searchValue.toLowerCase());
+    const matchCount = filterGallery(searchValue.toLowerCase());
 
     setTimeout(function() {
       setStatus(`Anzahl der Treffer zu ${menuItemText}: ${matchCount}`);
@@ -108,14 +108,14 @@ export default function Gallery() {
         className='MyMenuButton'
         onSelection={handleSelection}
       >
-        <Button className='MyMenuButton-button'>
+        <Button className='vcs'>
           Filtern nach
         </Button>
         <Menu className='MyMenuButton-menu'>
           <ul>            
             <li>
               <MenuItem className='MyMenuButton-menuItem'>
-                -- alle --
+                Alle anzeigen
               </MenuItem>
             </li>
             <li>
@@ -130,7 +130,12 @@ export default function Gallery() {
             </li>
             <li>
               <MenuItem className='MyMenuButton-menuItem'>
-                Schildkröte
+                Landkarten
+              </MenuItem>
+            </li>
+            <li>
+              <MenuItem className='MyMenuButton-menuItem'>
+                Brillen
               </MenuItem>
             </li>
           </ul>
