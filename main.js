@@ -14,7 +14,6 @@ const Gallery = {
         this.gallery = document.querySelector('.gallery');
         this.galleryItems = null;
         this.focusHolderElement = document.createElement('li');
-        this.searchBox = document.querySelector('#search-box');
     },
 
     /**
@@ -25,10 +24,6 @@ const Gallery = {
     _bindEvents: function () {
         Gallery.showAllButton.addEventListener("click", function () {
             Gallery._loadMoreElements();
-        });
-
-        Gallery.searchBox.addEventListener("input", function () {
-            Gallery._filterGallery();
         });
 
         Gallery.searchBox.addEventListener("focus", function () {
@@ -74,22 +69,6 @@ const Gallery = {
         }
 
         Gallery.galleryItems = Gallery.gallery.querySelectorAll('li:not(#focus-element)');
-    },
-
-    _filterGallery: function() {
-        let searchString = Gallery.searchBox.value;
-        
-        Gallery.galleryItems.forEach(listItem =>{
-            let tagList = listItem.querySelector('img').getAttribute('data-tags').split(","); 
-            
-            let matchFound = tagList.some(tag => tag.includes(searchString));
-
-            if (matchFound) {
-                listItem.style.display = 'block';
-            } else {
-                listItem.style.display = 'none';
-            }
-        });
     },
 
     _setStatus: function(statusMessage) {

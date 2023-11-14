@@ -24,6 +24,32 @@ body {
   font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
+.inner {
+  box-sizing: content-box;
+  max-width: 1522px;
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+
+@media (max-width: 1564px) {
+  .inner {
+    max-width: 1139px;
+  }
+}
+
+@media (max-width: 1178px) {
+  .inner {
+    max-width: 756px;
+  }
+}
+
+@media (max-width: 796px) {
+  .inner {
+    max-width: 372px;
+  }
+}
+
+
 .container {
   padding: 35px 5%;
 }
@@ -144,4 +170,11 @@ button:hover {
 
 svg {
   fill: var(--background);
+}
+
+.no-found {
+  color: var(--brown);
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
 }

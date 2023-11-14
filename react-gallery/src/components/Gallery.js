@@ -2,7 +2,6 @@ import React, { useState, useMemo, useRef } from 'react';
 import { Wrapper, Button, Menu, MenuItem } from 'react-aria-menubutton/src';
 
 import GalleryItem from './GalleryItem.js';
-import Filter from './Filter.js';
 
 import initialGalleryItems from '../data/initialGallery.js';
 import additionalGalleryItems from '../data/additionalGallery.js';
@@ -16,7 +15,7 @@ export default function Gallery() {
   const [status, setStatus] = useState("");
   const [galleryIsFiltered, setGalleryIsFiltered] = useState(false);
   const [galleryItemFocusPosition, setGalleryItemFocusPosition] = useState(0);
-  const allGalleryItemsRef = useRef(initialGalleryItems); // copy for any new filter request
+  const [allGalleryItems, setAllGalleryItems] = useState(initialGalleryItems); // copy for any new filter request
 
   const focusHolderRef = useRef();
   
@@ -50,7 +49,7 @@ export default function Gallery() {
       setGalleryItems(nextGalleryItems);
       setStatus('Es wurden Bilder geladen');
 
-      allGalleryItemsRef.value = nextGalleryItems;
+      setAllGalleryItems(nextGalleryItems);
     }, 1000);
   };
   
@@ -64,7 +63,7 @@ export default function Gallery() {
   }, [galleryItems]);
 
   const filterGallery = (searchValue) => {
-    const filteredGalleryItems = allGalleryItemsRef.current.filter((item) => {
+    const filteredGalleryItems = allGalleryItems.filter((item) => {
       const tags = item.tags.split(",").map((tag) => tag.trim());
       return tags.some((tag) => tag.toLowerCase().indexOf(searchValue) !== -1);
     });
@@ -80,9 +79,11 @@ export default function Gallery() {
   }
 
   const handleSelection = (menuItemText, event) => {
-    setGalleryIsFiltered(menuItemText !== 'Alle anzeigen');
+    const showAllItems = menuItemText === 'Alle anzeigen';
+    const searchValue = showAllItems ? '' : menuItemText;
 
-    const searchValue = galleryIsFiltered ? '' : menuItemText;
+    setGalleryIsFiltered(!showAllItems);
+
     const matchCount = filterGallery(searchValue.toLowerCase());
 
     setTimeout(function() {
@@ -102,88 +103,92 @@ export default function Gallery() {
           {status}
       </div>
 
-      <h1>Vintage Bildergalerie</h1>
-      
-      <Wrapper
-        className='MyMenuButton'
-        onSelection={handleSelection}
-      >
-        <Button className='vcs'>
-          <span className='sr-only'>Bildergalerie nach Kategorien filtern</span>
-          <span className='button-content'>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="presentation" focusable="false">
-              <path d="M22.906 2.841c1.104-2.412-7.833-2.841-10.907-2.841-2.934 0-12.01.429-10.906 2.841.508 1.11 8.907 12.916 8.907 12.916v5.246l4 2.997v-8.243s8.398-11.806 8.906-12.916zm-10.901-.902c4.243 0 8.144.575 8.144 1.226s-3.9 1.18-8.144 1.18-8.042-.528-8.042-1.18 3.799-1.226 8.042-1.226z"/>
-            </svg>
-          </span>
-          
-        </Button>
-        <Menu className='MyMenuButton-menu'>
-          <ul>            
-            <li>
-              <MenuItem className='MyMenuButton-menuItem'>
-                Alle anzeigen
-              </MenuItem>
-            </li>
-            <li>
-              <MenuItem className='MyMenuButton-menuItem'>
-                Bücher
-              </MenuItem>
-            </li>
-            <li>
-              <MenuItem className='MyMenuButton-menuItem'>
-                Globus
-              </MenuItem>
-            </li>
-            <li>
-              <MenuItem className='MyMenuButton-menuItem'>
-                Landkarten
-              </MenuItem>
-            </li>
-            <li>
-              <MenuItem className='MyMenuButton-menuItem'>
-                Brillen
-              </MenuItem>
-            </li>
-          </ul>
-        </Menu>
-      </Wrapper>
+      <div className='inner'>
 
-     {/* GalleryItems */}
-     {galleryItems.length > 0 && (
-      <ul className='gallery'>
-        {galleryItems.map((item, index) => (
-          <GalleryItem 
-            innerRef={refsById[`galleryItem-${index + 1}`]}
-            key={index} 
-            src={item.src} 
-            alt={item.alt} 
-          />
-        ))}
-      </ul>
-     )}
+        <h1>Vintage Bildergalerie</h1>
+        
 
-      {galleryItems.length == 0 && (
-        <p>nix items</p>
+        {/* Filter */}
+        <Wrapper
+          className='MyMenuButton'
+          onSelection={handleSelection}
+        >
+          <Button className='vcs'>
+            <span className='sr-only'>Bildergalerie nach Kategorien filtern</span>
+            <span className='button-content'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M22.906 2.841c1.104-2.412-7.833-2.841-10.907-2.841-2.934 0-12.01.429-10.906 2.841.508 1.11 8.907 12.916 8.907 12.916v5.246l4 2.997v-8.243s8.398-11.806 8.906-12.916zm-10.901-.902c4.243 0 8.144.575 8.144 1.226s-3.9 1.18-8.144 1.18-8.042-.528-8.042-1.18 3.799-1.226 8.042-1.226z"/>
+              </svg>
+            </span>
+            
+          </Button>
+          <Menu className='MyMenuButton-menu'>
+            <ul>            
+              <li>
+                <MenuItem className='MyMenuButton-menuItem'>
+                  Alle anzeigen
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem className='MyMenuButton-menuItem'>
+                  Bücher
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem className='MyMenuButton-menuItem'>
+                  Globus
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem className='MyMenuButton-menuItem'>
+                  Landkarten
+                </MenuItem>
+              </li>
+              <li>
+                <MenuItem className='MyMenuButton-menuItem'>
+                  Brillen
+                </MenuItem>
+              </li>
+            </ul>
+          </Menu>
+        </Wrapper>
+
+      {/* GalleryItems */}
+      {galleryItems.length > 0 && (
+        <ul className='gallery'>
+          {galleryItems.map((item, index) => (
+            <GalleryItem 
+              innerRef={refsById[`galleryItem-${index + 1}`]}
+              key={index} 
+              src={item.src} 
+              alt={item.alt} 
+            />
+          ))}
+        </ul>
       )}
-      
-      {/* focusHolderElement */}
-      <a
-        ref={focusHolderRef} 
-        onKeyDown={handleKeyDown}
-        tabIndex="-1" 
-        role="presentation" 
-        aria-hidden="true" 
-        id="focus-element">
-      </a>
 
-      {
-        galleryIsFiltered === false && (
-          <button id='show-all' onClick={loadMoreElements}>
-            Mehr Bilder anzeigen
-          </button>
-        )
-      }
-     
+        {galleryItems.length == 0 && (
+          <p className='no-found'>Keine Bilder gefunden.</p>
+        )}
+        
+        {/* focusHolderElement */}
+        <a
+          ref={focusHolderRef} 
+          onKeyDown={handleKeyDown}
+          tabIndex="-1" 
+          role="presentation" 
+          aria-hidden="true" 
+          id="focus-element">
+        </a>
+
+        {
+          galleryIsFiltered === false && (
+            <button id='show-all' onClick={loadMoreElements}>
+              Mehr Bilder anzeigen
+            </button>
+          )
+        }
+      </div>
     </div>
   );
 };
